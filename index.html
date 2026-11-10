@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Image Classifier &amp; AI Ethics</title>
+  <style>
+    :root{color-scheme:light;--ink:#172033;--muted:#536178;--line:#dce3ec;--blue:#2457d6;--bg:#f6f8fc}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:960px;margin:auto;padding:44px 22px 80px}h1,h2,h3{line-height:1.2}h1{font-size:clamp(2rem,5vw,3.3rem);margin:0 0 12px}h2{font-size:1.7rem;margin:0 0 16px}h3{margin:25px 0 8px}
+    a{color:var(--blue)}.lead{color:var(--muted);font-size:1.1rem;max-width:750px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;margin:24px 0;box-shadow:0 8px 28px rgba(18,39,82,.04)}
+    .links{display:flex;flex-wrap:wrap;gap:10px}.links a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:7px 13px;text-decoration:none}.links a:hover{background:#eef3ff}
+    button{border:0;border-radius:10px;background:var(--blue);color:white;padding:11px 17px;font:inherit;font-weight:650;cursor:pointer}button:disabled{opacity:.6;cursor:wait}button:hover:not(:disabled){background:#1944b4}
+    #status{color:var(--muted);margin:12px 0}#webcam-container canvas{max-width:100%;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.13)}.prediction{margin:12px 0}.prediction strong{display:flex;justify-content:space-between}.bar{height:12px;border-radius:99px;background:#e7ecf4;overflow:hidden}.fill{height:100%;background:var(--blue);width:0;transition:width .15s ease}
+    .note{border-left:4px solid var(--blue);padding:12px 16px;background:#eef3ff;border-radius:0 8px 8px 0}.essay p{margin:0 0 16px}.essay ol{padding-left:24px}.essay li{margin-bottom:15px}footer{color:var(--muted);font-size:.9rem}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Live Image Classifier</h1>
+    <p class="lead">A Teachable Machine demo, a contributor-organized photo dataset, and a reflection on the human choices behind computer vision.</p>
+    <div class="links">
+      <a href="https://github.com/Mel000618/mel-LIS500-ML">GitHub repository</a>
+      <a href="https://github.com/Mel000618/mel-LIS500-ML/tree/main/dataset">Photo dataset</a>
+      <a href="https://teachablemachine.withgoogle.com/models/1rbbm3v-y/">Published model</a>
+    </div>
+  </header>
+
+  <section class="card" aria-labelledby="demo-title">
+    <h2 id="demo-title">Interactive classifier</h2>
+    <p>The published model predicts among <strong>Esther</strong>, <strong>Picnic</strong>, and <strong>Chewy</strong>. Allow camera access when your browser asks. Predictions are estimates, not facts about what the image contains.</p>
+    <button id="start" type="button">Start camera</button>
+    <p id="status" role="status">Camera is off.</p>
+    <div id="webcam-container"></div>
+    <div id="label-container" aria-live="off"></div>
+  </section>
+
+  <section class="card" aria-labelledby="data-title">
+    <h2 id="data-title">Dataset and contributors</h2>
+    <p>Mel supplied 100 photographs from two local folders (44 and 56); Mia supplied 100 photographs from one local folder. The repository stores them at <a href="https://github.com/Mel000618/mel-LIS500-ML/tree/main/dataset/Mel/class1">Mel/class1</a> and <a href="https://github.com/Mel000618/mel-LIS500-ML/tree/main/dataset/Mia/class1">Mia/class1</a>. Contributor folders identify provenance, not model classes. Files were converted to JPEG and compressed for upload. The originals were left on the computer.</p>
+    <p class="note">The model's training interface shows 104 Esther, 85 Picnic, and 53 Chewy samples. Those counts describe the published model, not the 200 photographs in this repository. The relationship between the two collections has not been verified.</p>
+  </section>
+
+  <section class="card" aria-labelledby="video-title">
+    <h2 id="video-title">Demonstration video</h2>
+    <p>A 1–2 minute recording of live predictions has not yet been provided. When available, its YouTube or Vimeo link can be added here.</p>
+  </section>
+
+  <section class="card essay" aria-labelledby="statement-title">
+    <h2 id="statement-title">Project statement: dataset production and algorithmic vulnerability</h2>
+    <p>Computer vision can feel automatic when a camera image produces a label in a fraction of a second. Yet the apparent speed of inference hides a long chain of human decisions. Someone selected the task, defined the labels, took or collected the photographs, chose which images to include, trained a model, and decided how to present its output. This project makes part of that chain visible. The public repository contains 200 photographs organized by contributor, 100 from Mel and 100 from Mia, alongside a browser interface for a published Teachable Machine model. The model currently has three labels: Esther, Picnic, and Chewy. The repository's contributor folders are not the model's categories, and we do not assume that every repository photograph was used in model training. Keeping those distinctions clear is a first step toward honest documentation.</p>
+    <h3>Collection is a design decision</h3>
+    <p>Photographs are not neutral units of evidence. A camera frames some details and excludes others. Distance, angle, focus, glare, clutter, and lighting can all change the visible features of the same subject. A person collecting many images in one room may unintentionally make the room a reliable cue. Another person may photograph from a different device or at a different time of day. If these differences line up with labels, a classifier can learn shortcuts that work on familiar images and fail elsewhere. A small dataset can be especially vulnerable because each repeated background or perspective occupies a large share of the evidence available during training.</p>
+    <p>For this repository, the confirmed collection facts are limited but useful: there are 100 files under each contributor's name, the 200 source files are distinct at the byte level, and they were converted into JPEG copies for upload. Exact file uniqueness does not prove visual diversity. Several photographs could show nearly the same subject from nearly the same angle. Nor does a count of 100 guarantee consistent quality or balanced coverage of conditions. A stronger collection record would describe when and how images were taken, how many unique scenes they represent, what was excluded, and whether any images contain people or identifying information. That documentation would let later readers judge the dataset's limits rather than treating the count alone as proof of rigor.</p>
+    <h3>Reading the “coded gaze”</h3>
+    <p>Joy Buolamwini's <em>Unmasking AI</em> argues that automated systems reflect the priorities and blind spots of the people and institutions that build them. Her account of facial analysis systems failing to detect her face, and of later auditing work exposing uneven performance across demographic groups, challenges the idea that a model's numerical output is inherently objective. The lesson is broader than facial analysis: a classifier trained on a narrow slice of the world may appear confident because it has never been forced to confront what its data omitted. The choice of benchmark, the definition of a correct answer, and the decision to report one overall score all shape the story told about the system.</p>
+    <p>Our project is not a facial recognition audit, and its consequences are different. It is still a useful setting in which to practice the same habit of inquiry. We can ask which subjects and environments are represented, whether the model is responding to the intended object or to a recurring background, and what happens when the object is partly hidden or placed in unusual light. We can also ask whose work made the model possible. Naming the contributors and preserving a visible dataset structure acknowledges that data creation is labor. It gives others a starting point for examining the project's provenance and for questioning claims that the software performs well in every setting.</p>
+    <h3>Confidence is not accuracy</h3>
+    <p>The live page displays probabilities supplied by the model. A bar near 100 percent can look persuasive, but it is a measure of the model's relative confidence among its own classes. It does not establish that the prediction is correct, nor does it tell us whether the input belongs to any of those classes at all. A three-class model must still distribute confidence among three labels when shown an unfamiliar scene. For a responsible demonstration, we should show ordinary examples as well as difficult ones: changes in lighting, orientation, scale, occlusion, and background. We should record both successful and mistaken predictions instead of selecting only the most flattering moments.</p>
+    <p>Formal evaluation would require a set of images that the model did not see during training. The team could count correct predictions for each class, inspect a confusion matrix, and repeat the test under different capture conditions. Results should be reported with sample sizes and the exact model version. It would be misleading to present the training interface's 104, 85, and 53 samples as an evaluation set or to claim an accuracy figure without a documented test. The repository's 200 contributor photographs may become part of such an audit only after the team confirms how they relate to the training data and keeps an independent test portion aside.</p>
+    <h3>Why disaggregation matters</h3>
+    <p>Buolamwini's work also shows why a single aggregate result can hide failures concentrated in a smaller group. In this classroom project, the relevant slices may be lighting, camera device, location, distance, or contributor rather than demographic categories. If performance is strong for one contributor's setup and weak for another's, an average across all images can conceal the gap. Looking at each slice separately helps reveal which collection choices the model has absorbed. This does not mean that every difference is evidence of unfairness; it means that a transparent project should make differences inspectable before it claims broad reliability.</p>
+    <h3>Transparency and limits</h3>
+    <p>Publishing the interface and the contributor-organized photographs supports scrutiny, but openness by itself is not a complete ethical practice. People pictured in data need appropriate permission; private information embedded in images or metadata needs care; and public access to files should be deliberate. The team should also document the model's intended use. A playful demonstration of three labels should not be promoted as a tool for decisions about people. The page therefore describes its predictions as estimates and states what is still missing: a verified account of how the repository corpus relates to training, a recorded demonstration, and an independent evaluation.</p>
+    <p>The most useful outcome of this project is a more precise understanding of where machine learning begins. The visible prediction starts at the camera, but the model's behavior was shaped earlier, during collection and labeling. A reproducible account should keep the photographs organized, explain the categories, preserve the model link, test on unseen examples, and show failures alongside successes. Those practices cannot guarantee a perfect classifier. They can, however, make its strengths and weaknesses available for others to examine, which is a more defensible goal than presenting a smooth probability bar as proof that the system understands the world.</p>
+  </section>
+  <footer>Source and dataset: <a href="https://github.com/Mel000618/mel-LIS500-ML">Mel000618/mel-LIS500-ML</a>.</footer>
+</main>
+<script>
+  const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/1rbbm3v-y/';
+  const startButton = document.getElementById('start');
+  const status = document.getElementById('status');
+  const cameraContainer = document.getElementById('webcam-container');
+  const labelContainer = document.getElementById('label-container');
+  let model, webcam, running = false;
+
+  startButton.addEventListener('click', async () => {
+    startButton.disabled = true;
+    status.textContent = 'Loading model and requesting camera access…';
+    try {
+      if (!window.tmImage) throw new Error('The model library did not load. Check your internet connection.');
+      model = await tmImage.load(MODEL_URL + 'model.json', MODEL_URL + 'metadata.json');
+      webcam = new tmImage.Webcam(320, 320, true);
+      await webcam.setup();
+      await webcam.play();
+      cameraContainer.replaceChildren(webcam.canvas);
+      labelContainer.replaceChildren();
+      for (let i = 0; i < model.getTotalClasses(); i++) {
+        const row = document.createElement('div');
+        row.className = 'prediction';
+        row.innerHTML = '<strong><span></span><span></span></strong><div class="bar"><div class="fill"></div></div>';
+        labelContainer.appendChild(row);
+      }
+      running = true;
+      status.textContent = 'Camera is on. Predictions update live.';
+      requestAnimationFrame(loop);
+    } catch (error) {
+      status.textContent = 'Could not start: ' + error.message;
+      startButton.disabled = false;
+    }
+  });
+
+  async function loop() {
+    if (!running) return;
+    webcam.update();
+    try {
+      const predictions = await model.predict(webcam.canvas);
+      predictions.forEach((prediction, index) => {
+        const row = labelContainer.children[index];
+        const percent = Math.round(prediction.probability * 100);
+        row.querySelector('strong span:first-child').textContent = prediction.className;
+        row.querySelector('strong span:last-child').textContent = percent + '%';
+        row.querySelector('.fill').style.width = percent + '%';
+      });
+      requestAnimationFrame(loop);
+    } catch (error) {
+      running = false;
+      status.textContent = 'Prediction stopped: ' + error.message;
+      startButton.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
