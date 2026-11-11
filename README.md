@@ -1,6 +1,6 @@
 # Live image classifier project
 
-This repository contains the image dataset and a browser demo for a Teachable Machine image classification project. The dataset currently has **200 photographs**, organized by contributor:
+This repository contains the image dataset and a browser demo for a Teachable Machine image classification project. The dataset has **200 photographs**, organized by contributor:
 
 | Contributor | Folder | Images |
 | --- | --- | ---: |
@@ -17,7 +17,7 @@ The project explores image classification with Google's Teachable Machine and th
 
 The published [Teachable Machine image model](https://teachablemachine.withgoogle.com/models/1rbbm3v-y/) has three classes named **Esther**, **Picnic**, and **Chewy**. In the training interface, these classes currently show 104, 85, and 53 image samples respectively. These are model training sample counts; they are separate from the 200 contributor-organized photographs uploaded to this repository.
 
-Open [`index.html`](index.html) in a modern browser, or use the repository's GitHub Pages site once enabled. Select **Start camera** to test live predictions. Camera access normally requires HTTPS or localhost. The page displays class probabilities from the published model. A demonstration-video URL has not yet been supplied, so the page labels that section as pending.
+Open the [live demo](https://mel000618.github.io/mel-LIS500-ML/) in a modern browser and select **Start camera** to test live predictions. Camera access requires permission. The page displays class probabilities from the published model. A demonstration-video URL has not yet been supplied, so the page labels that section as pending.
 
 For local serving, a simple static HTTP server is enough: from the repository root run `python3 -m http.server 8000` and visit `http://localhost:8000`. No build step is required. The page loads TensorFlow.js and the Teachable Machine image library from a CDN, so an internet connection is required. A published Teachable Machine image model must provide `model.json` and `metadata.json` at its URL.
 
