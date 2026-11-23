@@ -7,17 +7,17 @@ This repository contains the image dataset and a browser demo for a Teachable Ma
 | Mel | [`dataset/Mel/class1/`](dataset/Mel/class1/) | 100 |
 | Mia | [`dataset/Mia/class1/`](dataset/Mia/class1/) | 100 |
 
-Mel also contributed [**46 additional No cat photos**](dataset/no-cat/Mel/) for the second iteration.
+Mel also contributed [**46 additional images for the No cat category**](dataset/no-cat/Mel/) for the second iteration.
 
 ## 1. Project background and contributions
 
 This project explores how image classification could help a multi-cat household serve each cat the right food. Esther eats weight-management food, Chewy eats hairball-control food, and Picnic eats kitten food. In our proposed system, a camera on an automatic feeder would identify the cat at the bowl and dispense that cat's assigned food, helping prevent the cats from eating one another's meals.
 
-Mel and Mia each contributed 100 photographs, as shown above. The folders identify the contributors; the model's classes identify Esther, Picnic, and Chewy. Another household could adapt the idea by collecting photos of its own pets, retraining and testing the model, and setting a food assignment for each pet.
+Mel and Mia each contributed 100 photographs, as shown above. The folders identify the contributors; the model's classes identify Esther, Chewy, Picnic, and No cat. Another household could adapt the idea by collecting photos of its own pets, retraining and testing the model, and setting a food assignment for each pet.
 
 ## 2. Model and demo
 
-We use a three-class [Teachable Machine image model](https://teachablemachine.withgoogle.com/models/1rbbm3v-y/) that predicts whether a camera image shows Esther, Picnic, or Chewy. The [public demo webpage](https://mel000618.github.io/mel-LIS500-ML/) shows the three cats, their assigned foods, live predictions, and a [demonstration video](https://mel000618.github.io/mel-LIS500-ML/#video-title). Select **Start camera** and allow camera access to try the classifier. The displayed scores show the model's predictions, not certainty.
+We use a four-class [Teachable Machine image model](https://teachablemachine.withgoogle.com/models/_2xkQfZjh/) that predicts whether a camera image shows Esther, Chewy, Picnic, or No cat. The [public demo webpage](https://mel000618.github.io/mel-LIS500-ML/) shows the three cats, their assigned foods, live predictions, and a [demonstration video](https://mel000618.github.io/mel-LIS500-ML/#video-title). Select **Start camera** and allow camera access to try the classifier. The displayed scores show the model's predictions, not certainty.
 
 The webpage does not connect to or control an automatic feeder. A real feeder would also need a safe way to handle uncertain predictions, multiple cats in view, and failures of the camera or model.
 
