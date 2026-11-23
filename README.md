@@ -7,13 +7,13 @@ This repository contains the image dataset and a browser demo for a Teachable Ma
 | Mel | [`dataset/Mel/class1/`](dataset/Mel/class1/) | 100 |
 | Mia | [`dataset/Mia/class1/`](dataset/Mia/class1/) | 100 |
 
-Mel also contributed [**46 additional No cat photos**](dataset/no-cat/Mel/). These are separate from the original 200 cat photos above. The published model still has three cat classes; adding the new images to this repository does not retrain it.
+Mel also contributed [**46 additional No cat photos**](dataset/no-cat/Mel/) for the second iteration.
 
 ## 1. Project background and contributions
 
 This project explores how image classification could help a multi-cat household serve each cat the right food. Esther eats weight-management food, Chewy eats hairball-control food, and Picnic eats kitten food. In our proposed system, a camera on an automatic feeder would identify the cat at the bowl and dispense that cat's assigned food, helping prevent the cats from eating one another's meals.
 
-Mel and Mia each contributed 100 photographs, as shown above. The folders identify the contributors; the model's classes identify Esther, Picnic, and Chewy. This is a class project and a proof of concept for cat recognition, not a working feeder. Another household could adapt the idea by collecting photos of its own pets, retraining and testing the model, and setting a food assignment for each pet.
+Mel and Mia each contributed 100 photographs, as shown above. The folders identify the contributors; the model's classes identify Esther, Picnic, and Chewy. Another household could adapt the idea by collecting photos of its own pets, retraining and testing the model, and setting a food assignment for each pet.
 
 ## 2. Model and demo
 
