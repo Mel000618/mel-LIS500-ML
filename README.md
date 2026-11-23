@@ -7,6 +7,8 @@ This repository contains the image dataset and a browser demo for a Teachable Ma
 | Mel | [`dataset/Mel/class1/`](dataset/Mel/class1/) | 100 |
 | Mia | [`dataset/Mia/class1/`](dataset/Mia/class1/) | 100 |
 
+Mel also contributed [**46 additional No cat photos**](dataset/no-cat/Mel/). These are separate from the original 200 cat photos above. The published model still has three cat classes; adding the new images to this repository does not retrain it.
+
 ## 1. Project background and contributions
 
 This project explores how image classification could help a multi-cat household serve each cat the right food. Esther eats weight-management food, Chewy eats hairball-control food, and Picnic eats kitten food. In our proposed system, a camera on an automatic feeder would identify the cat at the bowl and dispense that cat's assigned food, helping prevent the cats from eating one another's meals.
@@ -21,6 +23,6 @@ The webpage does not connect to or control an automatic feeder. A real feeder wo
 
 ## 3. Data collection and ethics
 
-The 200 repository photos are organized by contributor, while the model training samples are organized by cat. Those are different groupings and should not be treated as the same counts. The photos may include similar backgrounds, repeated poses, uneven lighting, and other patterns that make a model appear more accurate than it would be on new images.
+The original 200 cat photos are organized by contributor, while the model training samples are organized by cat. Those are different groupings and should not be treated as the same counts. The photos may include similar backgrounds, repeated poses, uneven lighting, and other patterns that make a model appear more accurate than it would be on new images.
 
 Before using this idea to dispense food, we would need to test it on photos withheld from training and under varied lighting, camera angles, and feeding conditions. A wrong prediction could give a cat food intended for another cat, so the current classifier should not make feeding decisions by itself. The people who collected and labeled the images chose what the model could see; those choices shape its limits. Any new household would need its own representative photos and careful testing. Pet photos should be shared with the owners' permission, especially when they reveal details of a private home.
